@@ -19,15 +19,13 @@ RUN go mod download
 # 将我们的代码编译成二进制可执行文件app
 RUN go build -o app .
 
-# 移动到用于存放生成的二进制文件的 /dist 目录
-WORKDIR /dist
+###################
+# 接下来创建一个小镜像
+###################
+FROM scratch
 
-# 将二进制文件从 /build 目录复制到这里
-RUN cp /build/app .
+# 从builder镜像中把/dist/app 拷贝到当前目录
+COPY --from=builder /build/app /
 
-# 声明服务端口
-EXPOSE 8080
-
-# 启动容器时运行的命令
-CMD ["/dist/app"]
-
+# 需要运行的命令
+ENTRYPOINT ["/app"]
