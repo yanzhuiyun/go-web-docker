@@ -12,7 +12,7 @@ ENV GO111MODULE=on \
 WORKDIR /build
 
 # 将代码复制到容器中
-COPY .. .
+COPY . .
 
 RUN go mod download
 
